@@ -6,11 +6,6 @@
 - Sorting ability
 
 # How to use
-- Compile the code
-- Open PowerShell
-- the command for generating 1gb .csv file is: ./LargeTextFilesSorting.Console.exe --generate
-- the command for running the sorting is: ./LargeTextFilesSorting.Console.exe --run
-
-# Asciinema Record of usage: https://asciinema.org/a/464618
+- Use the installer or open Visual Studio, run the project
 
 Have a nice day!🎉
