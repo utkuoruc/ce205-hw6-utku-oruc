@@ -4,6 +4,7 @@
 - Uses external sort, we can see created chunks
 - Generating file ability
 - Sorting ability
+- Set LargeTextFilesSorting.App as Startup Project
 
 # How to use
 - Use the installer or open Visual Studio, run the project
