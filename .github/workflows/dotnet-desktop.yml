@@ -1,0 +1,72 @@
+name: Release
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout code.
+      uses: actions/checkout@v2
+      
+    - name: Install Wix
+      uses: actions/checkout@v2
+      with:
+        repository: fbarresi/wix
+        path: source\wix
+          
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+
+    - name: Add msbuild to PATH
+      uses: microsoft/setup-msbuild@v1.0.2
+
+    - name: Setup Nuget
+      uses: Nuget/setup-nuget@v1.0.5
+
+    - name: Restore nuget packages
+      run: nuget restore source\ProjectCleaner.sln
+
+    - name: Build Solution
+      run: msbuild source\ProjectCleaner.sln /p:Configuration=Release
+            
+    - name: Build Cleaner Project
+      run: msbuild source\ProjectCleaner\ProjectCleaner.csproj /p:Configuration=Release
+      
+    - name: Build Wix Cleaner Setup Project
+      run: msbuild source\ProjectCleanerSetup\ProjectCleanerSetup.wixproj /p:Configuration=Release
+      
+   # - name: Build Wix Setup
+   #   run: |
+   #     wix\tools\candle.exe Product.wxs -o -dSolutionExt=.sln -dSolutionFileName=ProjectCleaner.sln -dSolutionName=ProjectCleaner -dSolutionPath=ProjectCleaner.sln -dConfiguration=Release -dOutDir=bin\Release\ -dPlatform=x86 -dProjectDir=..\..\ProjectCleanerSetup\ -dProjectExt=.wixproj -dProjectFileName=ProjectCleanerSetup.wixproj -dProjectName=ProjectCleanerSetup -dProjectPath=..\..\ProjectCleanerSetup\ProjectCleanerSetup.wixproj -dTargetDir=..\..\ProjectCleanerSetup\bin\Release\ -dTargetExt=.msi -dTargetFileName=ProjectCleanerSetup.msi -dTargetName=ProjectCleanerSetup -dTargetPath=..\..\ProjectCleanerSetup\bin\Release\ProjectCleanerSetup.msi -out obj\Release\ -arch x86 -ext WixUtilExtension -ext WixUIExtension -dConfiguration=Release  
+   #     wix\tools\light.exe obj\*.wixobj -o bin\Installer.msi -ext WixUtilExtension -ext WixUIExtension -dWixUILicenseRtf="License.rtf"
+        
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: 1.0.${{ github.run_number }}
+        release_name: 1.0.${{ github.run_number }}
+        draft: false
+        prerelease: false
+        
+    - name: Upload Tagged Installer
+      id: upload-tagged-release-asset 
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+        asset_path: source\ProjectCleanerSetup\bin\Release\ProjectCleanerSetup.msi
+        asset_name: ProjectCleanerSetup_v1.0.${{ github.run_number }}.msi
+        asset_content_type: application/x-msi
+        
+        
+        

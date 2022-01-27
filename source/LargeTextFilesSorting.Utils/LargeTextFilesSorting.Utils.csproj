@@ -1,0 +1,11 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LargeTextFilesSorting\LargeTextFilesSorting.csproj">
+      <Project>{9062E9B3-6DEF-477A-946E-C6BA2D80695B}</Project>
+      <Name>LargeTextFilesSorting</Name>
+    </ProjectReference>
+  </ItemGroup>
+</Project>
