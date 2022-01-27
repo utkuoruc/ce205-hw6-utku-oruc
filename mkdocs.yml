@@ -1,17 +1,17 @@
 # Project information
-site_name: "Project Cleaner"
-site_author: 'Asst. Prof. Dr. Uğur CORUH'
-site_url: 'https://ucoruh.github.io/project-cleaner/'
+site_name: "Large File Ordering with External Sort"
+site_author: 'Utku ORUC'
+site_url: 'https://utkuoruc.github.io/ce205-hw6-utku-oruc/'
 site_description: >-
     .gitignore based deep folder cleaner for multiple folders
 
 # Repository
 repo_name: 'GitHub'
-repo_url: 'https://github.com/ucoruh/project-cleaner'
+repo_url: 'https://github.com/utkuoruc/ce205-hw6-utku-oruc'
 edit_uri: ""
 
 # Copyright
-copyright: Copyleft &copy; 2019 - 2021 Uğur CORUH
+copyright: Copyleft &copy; 2022 Utku ORUC
 
 #theme:
 #    name: material
